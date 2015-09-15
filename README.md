@@ -8,7 +8,7 @@ A javascript library to use intermodal route planning advice in the browser or i
 
 Install it:
 ```bash
-npm install lc-client
+npm install lc-client #for adding it to your $PATH add -g
 ```
 
 For use on the command line:
@@ -36,7 +36,7 @@ browserify ...
 
 The Linked Connections client plans routes over Linked Connections. These are hydra-powered hypermedia APIs that describe their things uisng the Linked Connections vocabulary. Furthermore, the objects returned in the document are ordere by departureTime.
 
-The Client will start downloading schedule data from publicly available and discoverable locations on the Web. It will follow links to 
+The Client will start downloading schedule data from publicly available and discoverable locations on the Web. It will follow links to discover new documents.
 
 More info can be found at http://linkedconnections.org
 
