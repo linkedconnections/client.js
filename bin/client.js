@@ -5,17 +5,33 @@ var Client = require('../lib/lc-client.js'),
     fs = require('fs'),
     program = require('commander');
 
-console.error("Linked Connection Client - use --help to discover more functions");
+console.error("Linked Connections Client use --help to discover more functions");
+
+var q;
 
 program
   .version('0.1.0')
   .option('-c --config [file]', 'specify config file')
+  .arguments('<query>')
+  .action(function (query) {
+    try {
+      query = fs.readFileSync(query, { encoding: 'utf8' });
+    } catch (error) {
+      console.error(error);
+    }
+    q = JSON.parse(query);
+  })
   .parse(process.argv);
 
 var configFile = program.config || path.join(__dirname, '../config-example.json'),
     config = JSON.parse(fs.readFileSync(configFile, { encoding: 'utf8' }))
 
+if (!q) {
+  console.error('Please provide a query as a string or a path towards a query file in JSON');
+  process.exit();
+}
+
 var client = new Client(config);
-client.query({from: "stops:32735" , to: "stops:32736", departureTime: "2013-12-15T08:00"}).on('data', function (data) {
+client.query(q).on('data', function (data) {
   console.log(data);
 });

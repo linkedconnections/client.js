@@ -1,4 +1,1 @@
-{
-  "from" : "stop:...",
-  "to" : "stop:..."
-}
+{"from":"stops:008821006:12" , "to": "stops:008863008:0", "departureTime": "2015-09-15T10:00"}
