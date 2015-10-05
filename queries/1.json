@@ -1,1 +1,5 @@
-{"from":"stops:008821006:12" , "to": "stops:008863008:0", "departureTime": "2015-09-15T10:00"}
+{
+  "arrivalStop":"8814001" , 
+  "departureStop": "8892007", 
+  "departureTime": "2015-10-04T10:00"
+}

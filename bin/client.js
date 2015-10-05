@@ -23,7 +23,7 @@ program
   })
   .parse(process.argv);
 
-var configFile = program.config || path.join(__dirname, '../config-example.json'),
+var configFile = program.config || path.join(__dirname, '../config.json'),
     config = JSON.parse(fs.readFileSync(configFile, { encoding: 'utf8' }))
 
 if (!q) {
@@ -32,6 +32,11 @@ if (!q) {
 }
 
 var client = new Client(config);
-client.query(q).on('data', function (data) {
-  console.log(data);
+client.query(q, function (stream) {
+  stream.on('data', function (data) {
+    console.log(data);
+  });
+  stream.on('error', function (error) {
+    console.error(error);
+  });
 });

@@ -1,5 +1,4 @@
 {
-  "startFragments" : {
-    "NMBS" : "http://localhost:8080/connections"
+  "entrypoints" : ["http://localhost:8080/connections"]
   }
 }
