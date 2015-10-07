@@ -18,14 +18,23 @@ $("#submit").on("click", function () {
       $("#path").html("");
       if (path) {
         path.forEach(function (connection) {
-          $("#path").append(connection.departureTime.toISOString() + " at " + connection.departureStop + " To arrive in " + connection.arrivalStop + " at " +  connection.arrivalTime.toISOString() + "<br/>");
+          $("#path").append(connection.departureTime.toISOString() + " at " + connection.departureStop + " To arrive in " + connection.arrivalStop + " at " +  connection.arrivalTime.toISOString());
+          if (connection["gtfs:trip"]) {
+            $("#path").append(" with trip id " + JSON.stringify(connection["gtfs:trip"]));
+          }
+          if (connection["gtfs:headsign"]) {
+            $("#path").append(" with headsign " + JSON.stringify(connection["gtfs:headsign"]));
+          }
+          if (connection["gtfs:route"]) {
+            $("#path").append(" with route " + JSON.stringify(connection["gtfs:route"]));
+          }
+          $("#path").append("<br/>");
         });
-        stream.end();
       }
       var duration = ((path[path.length-1].arrivalTime.getTime() - path[0].departureTime.getTime())/60000 );
       $("#path").append("Duration of the journey is: " + duration + " minutes");
-      
     });
+    
     stream.on('error', function (error) {
       console.error(error);
     });

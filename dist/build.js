@@ -259,11 +259,11 @@ Client.prototype.query = function (q, cb) {
   } else {
     throw "Date of departure not set";
   }
-  if (!q.from) {
+  if (!q.departureStop) {
     throw "Location of departure not set";
   }
-  if (!q.to) {
-    throw "Date of departure not set";
+  if (!q.arrivalStop) {
+    throw "Location of arrival not set";
   }
   var query = q;
   
@@ -271,8 +271,8 @@ Client.prototype.query = function (q, cb) {
   this._fetcher.buildConnectionsStream(q, function (connectionsStream) {
     //3. fire results using CSA.js and return the stream
     var planner = new Planner({
-      departureStop: q.from,
-      arrivalStop: q.to,
+      departureStop: q.departureStop,
+      arrivalStop: q.arrivalStop,
       departureTime: q.departureTime
     });
     cb(connectionsStream.pipe(planner));
@@ -338,9 +338,9 @@ ResultStream.prototype._transform = function (connection, encoding, done) {
   
   //get a list of possible previous connections by: checking footpaths and adding changetimes if it's not from the same gtfs:trip
   
-  // check whether it's from the same trip
+  // check whether it's from the same trip or route; If it isn't: add some minutes
   
-  if (this._earliestArrivalTimes[departureStop]) {
+  if (this._earliestArrivalTimes[departureStop] && this._earliestArrivalTimes[departureStop].arrivalTime < connection.departureTime) {
     
     //If the arrival stop isn't in the earliest arrival times list, or if it is and the current time is earlier than the existing arrival time, then add a new earliest arrival time for this arrivalStop
     if (!this._earliestArrivalTimes[arrivalStop] || this._earliestArrivalTimes[arrivalStop].arrivalTime > connection["arrivalTime"]) {
@@ -356,7 +356,7 @@ ResultStream.prototype._transform = function (connection, encoding, done) {
       this._minimumSpanningTree[connection["@id"]] = connection;
       this.emit("new_eat", connection);
       
-      //3. check whether we've found a result and return it, otherwise, continue
+     //3. check whether we've found a result and return it, otherwise, continue
       if (this._arrivalStop && arrivalStop === this._arrivalStop) {
         done(null, this._reconstructRoute());
       } else {
@@ -366,7 +366,6 @@ ResultStream.prototype._transform = function (connection, encoding, done) {
       done();
     }
   }
-  
   //the departure stop is not reachable: skip this one
   else {
     done();
@@ -376,9 +375,19 @@ ResultStream.prototype._transform = function (connection, encoding, done) {
 ResultStream.prototype._reconstructRoute = function () {
   var path = [];
   var previous = this._minimumSpanningTree[this._earliestArrivalTimes[this._arrivalStop]["@id"]];
-  while (previous) {
+  //Detect inf loops
+  var loop = false;
+  var minTime = this._earliestArrivalTimes[this._arrivalStop].arrivalTime ;
+  while (previous && !loop && previous.departureStop !== this._departureStop) {
     path.unshift(previous);
     previous = this._minimumSpanningTree[previous.previous];
+    if (previous && minTime > previous.arrivalTime) {
+      minTime = previous.arrivalTime;
+    } else if (previous) {
+      path.unshift(previous);
+      console.error("Illegal minimum spanning tree found with an infinite loop. Arrival Time becomes later while going back in time (May occur due to bad data) ", minTime, previous.arrivalTime);
+      loop = true;
+    }
   }
   return path;
 };

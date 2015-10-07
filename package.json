@@ -5,7 +5,7 @@
   "bin": {
     "lcc": "./bin/client.js"
   },
-  "main": "lib/lc-client.js",
+  "main": "./lib/lc-client.js",
   "scripts": {
     "test": "mocha",
     "build": "browserify lib/lc-client.js -d -p [minifyify --no-map] > dist/build.js"
@@ -27,7 +27,7 @@
   },
   "dependencies": {
     "commander": "^2.8.1",
-    "csa": "0.0.1",
+    "csa": "^0.0.2",
     "hydra-core": "0.0.2",
     "jsonld": "^0.4.1",
     "path": "^0.12.7",
