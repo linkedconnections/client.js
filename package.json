@@ -27,7 +27,7 @@
   },
   "dependencies": {
     "commander": "^2.8.1",
-    "csa": "^0.0.2",
+    "csa": "^0.0.x",
     "hydra-core": "0.0.2",
     "jsonld": "^0.4.1",
     "path": "^0.12.7",

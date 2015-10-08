@@ -31,10 +31,28 @@ if (!q) {
   process.exit();
 }
 
-var client = new Client(config);
+var client = new Client(config),
+    count = 0;
 client.query(q, function (stream) {
-  stream.on('data', function (data) {
-    console.log(data);
+  stream.on('data', function () {
+    count++;
+  });
+  stream.on('result', function (path) {
+    path.forEach(function (connection) {
+      console.log(connection.departureTime.toISOString() + " at " + connection.departureStop + " To arrive in " + connection.arrivalStop + " at " +  connection.arrivalTime.toISOString());
+      if (connection["gtfs:trip"]) {
+        console.log(" with trip id " + JSON.stringify(connection["gtfs:trip"]));
+      }
+      if (connection["gtfs:headsign"]) {
+        console.log(" with headsign " + JSON.stringify(connection["gtfs:headsign"]));
+      }
+      if (connection["gtfs:route"]) {
+        console.log(" with route " + JSON.stringify(connection["gtfs:route"]));
+      }
+    });
+    var duration = ((path[path.length-1].arrivalTime.getTime() - path[0].departureTime.getTime())/60000 );
+    console.log("Duration of the journey is: " + duration + " minutes");
+    console.log("To calculate, we have built a minimum spanning tree with " + count + " connections");
   });
   stream.on('error', function (error) {
     console.error(error);
