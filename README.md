@@ -29,7 +29,7 @@ resultStream.on('data', function (path) {
 
 Using it in the browser works in a similar way, by e.g., using browserify to generate a build file that can be used in the browser
 ```bash
-browserify ...
+browserify lib/lc-client.js -d -p [minifyify --no-map] > dist/build.js
 ```
 
 ## How it works
