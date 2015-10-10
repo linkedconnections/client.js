@@ -46,9 +46,6 @@ client.query(q, function (stream) {
       if (connection["gtfs:headsign"]) {
         console.log(" with headsign " + JSON.stringify(connection["gtfs:headsign"]));
       }
-      if (connection["gtfs:route"]) {
-        console.log(" with route " + JSON.stringify(connection["gtfs:route"]));
-      }
     });
     var duration = ((path[path.length-1].arrivalTime.getTime() - path[0].departureTime.getTime())/60000 );
     console.log("Duration of the journey is: " + duration + " minutes");
