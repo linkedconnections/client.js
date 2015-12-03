@@ -20,7 +20,7 @@ lcc -c config.json '{"arrivalStop" : "", "departureStop" : "", "departureTime": 
 You can also use the demo queries added in the queries folder.
 
 Use it as a library:
-```bash
+```javascript
 var Client = require('lc-client');
 var planner = new Client({"entrypoints" : ["http://belgianrail.linkedconnections.org/"]});
 planner.query({"arrivalStop" : "", "departureStop" : "", "departureTime": ""}, function (resultStream, source) {
@@ -36,11 +36,11 @@ planner.query({"arrivalStop" : "", "departureStop" : "", "departureTime": ""}, f
   });
   //you can also count the number of HTTP requests done by the interface as follows
   source.on('request', function (url) {
-    console.log('Requesting',url);
+    console.log('Requesting', url);
   });
   //you can also catch when a response is generated HTTP requests done by the interface as follows
   source.on('response', function (url) {
-    console.log('Response received for',url);
+    console.log('Response received for', url);
   });
 });
 ```
