@@ -35,6 +35,15 @@ var client = new Client(config),
     count = 0;
 client.query(q, function (stream, source) {
   console.log('Querying ' + source._entrypoints.length + ' data source(s).');
+  source.on('request', function (url) {
+    console.log('Requesting page', url);
+  });
+  /*
+  source.on('response', function (url) {
+    //You could would be able to calculate the response times here
+    console.log('Response received', url);
+  });
+  */
   stream.on('data', function () {
     count++;
   });
