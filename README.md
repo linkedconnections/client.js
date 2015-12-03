@@ -39,8 +39,8 @@ planner.query({"arrivalStop" : "", "departureStop" : "", "departureTime": ""}, f
     console.log('Requesting',url);
   });
   //you can also catch when a response is generated HTTP requests done by the interface as follows
-  source.on('request', function (url) {
-    console.log('Requesting',url);
+  source.on('response', function (url) {
+    console.log('Response received for',url);
   });
 });
 ```
