@@ -1,6 +1,6 @@
 # Linked Connections Client for javascript
 
-Status: _not functional (first dummy results)_
+Status: _Proof of Concept_
 
 A javascript library to use intermodal route planning advice in the browser or in your nodejs applications.
 
@@ -14,16 +14,26 @@ npm install lc-client #for adding it to your $PATH add -g
 For use on the command line:
 ```bash
 # uses by default the config-example.json which comes with this repo
-lcc -c config.json '{}'
+lcc -c config.json '{"arrivalStop" : "", "departureStop" : "", "departureTime": ""}'
 ```
+
+You can also use the demo queries added in the queries folder.
 
 Use it as a library:
 ```bash
 var Client = require('lc-client');
 var planner = new Client({"entrypoints" : ["http://belgianrail.linkedconnections.org/"]});
-var resultStream = planner.query({"query":"object"});
-resultStream.on('data', function (path) {
+planner.query({"arrivalStop" : "", "departureStop" : "", "departureTime": ""}, function (resultStream, source) {
+  resultStream.on('result', function (path) {
     console.log(path);
+  });
+  resultStream.on('data', function (path) {
+    console.log(path);
+    //if you're not interested anymore, you can stop the processing by doing this
+    if (stop_condition) {
+      source.close();
+    }
+  });
 });
 ```
 

@@ -33,7 +33,8 @@ if (!q) {
 
 var client = new Client(config),
     count = 0;
-client.query(q, function (stream) {
+client.query(q, function (stream, source) {
+  console.log('Querying ' + source._entrypoints.length + ' data source(s).');
   stream.on('data', function () {
     count++;
   });
