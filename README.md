@@ -50,6 +50,19 @@ Using it in the browser works in a similar way, by e.g., using browserify to gen
 browserify lib/lc-client.js -d -p [minifyify --no-map] > dist/build.js
 ```
 
+Within your script, you also use the Fetcher to have a stream of all connections:
+
+```javascript
+//1. Instantiate a fetcher
+var fetcher = new require('lc-client').Fetcher({"entrypoints" : ["http://belgianrail.linkedconnections.org/"]});
+//2. Use an empty query to get all connections from the sources configured in the fetcher
+fetcher.buildConnectionsStream({}, function (connectionsStream) {
+  connectionsStream.on('data', function (connection) {
+    //do something with connection here
+  });
+});
+```
+
 ## How it works
 
 The Linked Connections client plans routes over Linked Connections. These are hydra-powered hypermedia APIs that describe their things uisng the Linked Connections vocabulary. Furthermore, the objects returned in the document are ordere by departureTime.
