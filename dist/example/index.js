@@ -9,12 +9,11 @@ $("#submit").on("click", function () {
   
   var departure = new Date($("#departureTime").val());
   planner.query({
-    "from" : start,
-    "to" : destination,
+    "departureStop" : start,
+    "arrivalStop" : destination,
     "departureTime" : departure
   }, function (stream) {
-    stream.on('data', function (path) {
-      console.log(path);
+    stream.on('result', function (path) {
       $("#path").html("");
       if (path) {
         path.forEach(function (connection) {
@@ -24,7 +23,9 @@ $("#submit").on("click", function () {
       }
       var duration = ((path[path.length-1].arrivalTime.getTime() - path[0].departureTime.getTime())/60000 );
       $("#path").append("Duration of the journey is: " + duration + " minutes");
-      
+    });
+    stream.on('data', function (connection) {
+      //console.log(connection);
     });
     stream.on('error', function (error) {
       console.error(error);

@@ -1,6 +1,6 @@
 {
   "name": "lc-client",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Linked Connections Client lets you plan public transit routes over the web of data",
   "bin": {
     "lcc": "./bin/client.js"
@@ -28,11 +28,15 @@
   "dependencies": {
     "commander": "^2.8.1",
     "csa": "^0.0.x",
-    "jsonld": "^0.4.1",
-    "moment": "~2.11.1",
+    "follow-redirects": "0.0.7",
+    "jsonld": "^0.4.x",
+    "moment": "^2.12.x",
     "path": "^0.12.7",
     "q": "^1.4.1",
-    "request": "^2.64.0",
     "uritemplate": "^0.3.4"
+  },
+  "browser": {
+    "follow-redirects/http": "http",
+    "follow-redirects/https": "https"
   }
 }
