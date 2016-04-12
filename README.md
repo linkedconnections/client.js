@@ -50,6 +50,15 @@ Using it in the browser works in a similar way, by e.g., using browserify to gen
 browserify lib/lc-client.js -d -p [minifyify --no-map] > dist/build.js
 ```
 
+You can also use our latest compiled version:
+```html
+<script src='http://demo.linkedconnections.org/lc-client-latest.js'></script>
+<script>
+var planner = new window.lc.Client({"entrypoints" : ["http://belgianrail.linkedconnections.org/"]});
+//...
+</script>
+```
+
 Within your script, you also use the Fetcher to have a stream of all connections:
 
 ```javascript
