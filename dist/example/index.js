@@ -19,7 +19,7 @@ $("#submit").on("click", function () {
         path.forEach(function (connection) {
           $("#path").append(connection.departureTime.toISOString() + " at " + connection.departureStop + " To arrive in " + connection.arrivalStop + " at " +  connection.arrivalTime.toISOString() + "<br/>");
         });
-        stream.end();
+        stream.close();
       }
       var duration = ((path[path.length-1].arrivalTime.getTime() - path[0].departureTime.getTime())/60000 );
       $("#path").append("Duration of the journey is: " + duration + " minutes");
