@@ -12,14 +12,14 @@ $("#submit").on("click", function () {
     "departureStop" : start,
     "arrivalStop" : destination,
     "departureTime" : departure
-  }, function (stream) {
+  }, function (stream, source) {
     stream.on('result', function (path) {
       $("#path").html("");
       if (path) {
         path.forEach(function (connection) {
           $("#path").append(connection.departureTime.toISOString() + " at " + connection.departureStop + " To arrive in " + connection.arrivalStop + " at " +  connection.arrivalTime.toISOString() + "<br/>");
         });
-        stream.close();
+        source.close();
       }
       var duration = ((path[path.length-1].arrivalTime.getTime() - path[0].departureTime.getTime())/60000 );
       $("#path").append("Duration of the journey is: " + duration + " minutes");
