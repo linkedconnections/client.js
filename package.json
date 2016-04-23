@@ -26,10 +26,12 @@
     "jsonld-stream": "^1.0.2"
   },
   "dependencies": {
+    "async": "^1.5.2",
     "commander": "^2.8.1",
     "csa": "^0.0.x",
     "follow-redirects": "0.1.x",
     "jsonld": "^0.4.x",
+    "merge-sort-stream": "^1.0.5",
     "moment": "^2.12.x",
     "node-cache": "^3.2.1",
     "path": "^0.12.7",
