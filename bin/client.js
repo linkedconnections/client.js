@@ -33,17 +33,19 @@ if (!q) {
 
 var client = new Client(config),
     count = 0;
-client.query(q, function (stream, source) {
-  console.log('Querying ' + source._entrypoints.length + ' data source(s).');
+client.query(q, function (stream, source, connectionsStream) {
+  console.log('Querying ' + config.entrypoints.length + ' data source(s).');
+  var httpStartTimes = {};
+  var httpResponseTimes = {};
   source.on('request', function (url) {
-    console.log('Requesting page', url);
+    httpStartTimes[url] = new Date();
   });
-  /*
+  
   source.on('response', function (url) {
-    //You could would be able to calculate the response times here
-    console.log('Response received', url);
+    httpResponseTimes[url] = new Date() - httpStartTimes[url];
+    console.log('GET', url, '-', httpResponseTimes[url] , 'ms');
   });
-  */
+  
   stream.on('data', function () {
     count++;
   });
@@ -60,6 +62,11 @@ client.query(q, function (stream, source) {
     var duration = ((path[path.length-1].arrivalTime.getTime() - path[0].departureTime.getTime())/60000 );
     console.log("Duration of the journey is: " + duration + " minutes");
     console.log("To calculate, we have built a minimum spanning tree with " + count + " connections");
+    var sum = 0;
+    for (var url in httpResponseTimes) {
+      sum += httpResponseTimes[url];
+    }
+    console.log("Downloading data over HTTP adds up to", sum, "ms");
   });
   stream.on('error', function (error) {
     console.error(error);

@@ -1,6 +1,6 @@
 {
   "name": "lc-client",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "Linked Connections Client lets you plan public transit routes over the web of data",
   "bin": {
     "lcc": "./bin/client.js"
