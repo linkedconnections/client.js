@@ -1,5 +1,4 @@
 {
   "entrypoints" : ["http://belgianrail.linkedconnections.org/connections"],
-  "enableCache" : true,
-  "reframeResponses" : false
+  "enableCache" : false
 }

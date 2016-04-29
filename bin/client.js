@@ -32,22 +32,23 @@ if (!q) {
 }
 
 var client = new Client(config),
-    count = 0;
+    count = 0,
+    totalBytesTransfered = 0;
+
+client._http.on('downloaded', function (download) {
+  totalBytesTransfered += download.totalBytes;
+});
+
 client.query(q, function (stream, source, connectionsStream) {
   console.log('Querying ' + config.entrypoints.length + ' data source(s).');
   var httpStartTimes = {};
   var httpResponseTimes = {};
-  var httpProcessTimes = {};
   source.on('request', function (url) {
     httpStartTimes[url] = new Date();
   });
   source.on('response', function (url) {
     httpResponseTimes[url] = new Date() - httpStartTimes[url];
     console.log('GET', url, '-', httpResponseTimes[url] , 'ms');
-  });
-  
-  source.on('processed', function (url) {
-    httpProcessTimes[url] = new Date() - httpStartTimes[url] - httpResponseTimes[url];
   });
   
   stream.on('data', function () {
@@ -66,14 +67,12 @@ client.query(q, function (stream, source, connectionsStream) {
     var duration = ((path[path.length-1].arrivalTime.getTime() - path[0].departureTime.getTime())/60000 );
     console.log("Duration of the journey is: " + duration + " minutes");
     console.log("To calculate, we have built a minimum spanning tree with " + count + " connections");
-    var sumResponseTimes = 0,
-        sumProcessTimes = 0;
+    var sumResponseTimes = 0;
     for (var url in httpResponseTimes) {
       sumResponseTimes += httpResponseTimes[url];
-      sumProcessTimes += httpProcessTimes[url];
     }
     console.log("Downloading data over HTTP adds up to", sumResponseTimes, "ms");
-    console.log("Processing the hypermedia adds up to", sumProcessTimes, "ms");
+    console.log(Math.round(totalBytesTransfered/(1024*1024)*100)/100 + "MB transfered while answering this query");
   });
   stream.on('error', function (error) {
     console.error(error);
