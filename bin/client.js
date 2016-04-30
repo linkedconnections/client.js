@@ -33,6 +33,7 @@ if (!q) {
 
 var client = new Client(config),
     count = 0,
+    countTotal = 0,
     totalBytesTransfered = 0;
 
 client._http.on('downloaded', function (download) {
@@ -50,7 +51,9 @@ client.query(q, function (stream, source, connectionsStream) {
     httpResponseTimes[url] = new Date() - httpStartTimes[url];
     console.log('GET', url, '-', httpResponseTimes[url] , 'ms');
   });
-  
+  connectionsStream.on('data', function (data) {
+    countTotal++;
+  });
   stream.on('data', function () {
     count++;
   });
@@ -66,7 +69,7 @@ client.query(q, function (stream, source, connectionsStream) {
     });
     var duration = ((path[path.length-1].arrivalTime.getTime() - path[0].departureTime.getTime())/60000 );
     console.log("Duration of the journey is: " + duration + " minutes");
-    console.log("To calculate, we have built a minimum spanning tree with " + count + " connections");
+    console.log("To calculate, we have built a minimum spanning tree with " + count + " connections, while we relaxed " + countTotal + " connections in total.");
     var sumResponseTimes = 0;
     for (var url in httpResponseTimes) {
       sumResponseTimes += httpResponseTimes[url];
