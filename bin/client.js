@@ -47,6 +47,9 @@ client.query(q, function (stream, source, connectionsStream) {
   source.on('request', function (url) {
     httpStartTimes[url] = new Date();
   });
+  source.on('redirect', function (obj) {
+    httpStartTimes[obj.to] = httpStartTimes[obj.from];
+  });
   source.on('response', function (url) {
     httpResponseTimes[url] = new Date() - httpStartTimes[url];
     console.log('GET', url, '-', httpResponseTimes[url] , 'ms');
