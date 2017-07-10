@@ -1,5 +1,5 @@
 {
-  "arrivalStop":"8814001" , 
-  "departureStop": "8892007", 
-  "departureTime": "2015-10-04T10:00"
+  "arrivalStop":"http://irail.be/stations/NMBS/008814001" , 
+  "departureStop": "http://irail.be/stations/NMBS/008892007", 
+  "departureTime": "2017-10-04T10:00"
 }

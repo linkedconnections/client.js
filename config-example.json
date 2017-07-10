@@ -1,4 +1,4 @@
 {
-  "entrypoints" : ["http://belgianrail.linkedconnections.org/connections"],
-  "enableCache" : false
+  "entrypoints" : ["https://belgium.linkedconnections.org/sncb/connections"],
+  "enableCache" : true
 }

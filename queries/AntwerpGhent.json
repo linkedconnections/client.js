@@ -1,5 +1,5 @@
 {
-  "arrivalStop":"http://belgianrail.linkedconnections.org/connections/8892007" ,
-  "departureStop": "http://belgianrail.linkedconnections.org/connections/8821006",
-  "departureTime": "2015-10-04T10:00+02:00"
+  "arrivalStop":"http://irail.be/stations/NMBS/008892007" ,
+  "departureStop": "http://irail.be/stations/NMBS/008821006",
+  "departureTime": "2017-10-04T10:00+02:00"
 }
