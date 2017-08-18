@@ -37,6 +37,6 @@
     "q": "^1.4.1",
     "uritemplate": "^0.3.4",
     "wreck": "^7.2.0",
-    "csa": "https://github.com/julianrojas87/csa.js"
+    "csa": "https://github.com/linkedconnections/csa.js#tripscore-dev"
   }
 }
