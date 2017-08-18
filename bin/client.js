@@ -60,7 +60,7 @@ client.query(q, function (stream, source, connectionsStream) {
   stream.on('data', function () {
     count++;
   });
-  stream.on('result', function (path) {
+  stream.once('result', function (path) {
     path.forEach(function (connection) {
       console.log(connection.departureTime.toISOString() + " at " + connection.departureStop + " To arrive in " + connection.arrivalStop + " at " +  connection.arrivalTime.toISOString());
       if (connection["gtfs:trip"]) {

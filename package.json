@@ -8,7 +8,8 @@
   "main": "lib/lc-client.js",
   "scripts": {
     "test": "mocha",
-    "build": "browserify lib/lc-client.js -d -p [minifyify --no-map] > dist/build.js"
+    "build": "browserify lib/lc-client.js -d -p [minifyify --no-map] > dist/build.js",
+    "start": "node ./dist/test"
   },
   "author": "Pieter Colpaert <pieter.colpaert@ugent.be>",
   "license": "MIT",
@@ -28,7 +29,6 @@
   "dependencies": {
     "async": "^1.5.2",
     "commander": "^2.10.0",
-    "csa": "^0.0.x",
     "ldfetch": "0.0.3",
     "merge-sort-stream": "^1.0.5",
     "moment": "^2.12.x",
@@ -36,6 +36,7 @@
     "path": "^0.12.7",
     "q": "^1.4.1",
     "uritemplate": "^0.3.4",
-    "wreck": "^7.2.0"
+    "wreck": "^7.2.0",
+    "csa": "https://github.com/julianrojas87/csa.js"
   }
 }
