@@ -1,9 +1,9 @@
 #!/usr/bin/node
 
 var Client = require('../lib/lc-client.js'),
-    path = require('path'),
-    fs = require('fs'),
-    program = require('commander');
+  path = require('path'),
+  fs = require('fs'),
+  program = require('commander');
 
 console.error("Linked Connections Client use --help to discover more functions");
 
@@ -24,34 +24,35 @@ program
   .parse(process.argv);
 
 var configFile = program.config || path.join(__dirname, '../config-example.json'),
-    config = JSON.parse(fs.readFileSync(configFile, { encoding: 'utf8' }))
+  config = JSON.parse(fs.readFileSync(configFile, { encoding: 'utf8' }))
 
 if (!q) {
   console.error('Please provide a query as a string or a path towards a query file in JSON');
   process.exit();
 }
 
-//config["version"] = new Date('2017-08-21T10:00:00.000Z');
-//config["version"] = new Date();
-//let depTime = new Date(q.departureTime);
-//depTime.setHours(depTime.getHours() + 10);
-//q['latestDepartTime'] = depTime;
-//q['minimumTransferTime'] = 6 * 60;
-//q['searchTimeOut'] = 300000;
+let options = { headers: [{ 'Accept-Datetime': '2017-08-21T10:00:00.000Z' }] };
+config.options = options;
+
+let depTime = new Date(q.departureTime);
+depTime.setHours(depTime.getHours() + 2);
+q['latestDepartTime'] = depTime;
+q['minimumTransferTime'] = 6 * 60;
+q['searchTimeOut'] = 300000;
 
 console.log(JSON.stringify(q));
 
 var client = new Client(config),
-    count = 0,
-    countTotal = 0,
-    totalBytesTransfered = 0;
+  count = 0,
+  countTotal = 0,
+  totalBytesTransfered = 0;
 
 client._http.on('downloaded', function (download) {
   totalBytesTransfered += download.totalBytes;
 });
 
 //client.timespanQuery(q, function (stream, source, connectionsStream) {
-client.query(q, function (stream, source, connectionsStream) {
+client.timespanQuery(q, function (stream, source, connectionsStream) {
   console.log('Querying ' + config.entrypoints.length + ' data source(s).');
   var httpStartTimes = {};
   var httpResponseTimes = {};
@@ -64,7 +65,7 @@ client.query(q, function (stream, source, connectionsStream) {
   });
   source.on('response', function (url) {
     httpResponseTimes[url] = new Date() - httpStartTimes[url];
-    console.log('GET', url, '-', httpResponseTimes[url] , 'ms');
+    console.log('GET', url, '-', httpResponseTimes[url], 'ms');
   });
   connectionsStream.on('data', function (data) {
     countTotal++;
@@ -74,7 +75,7 @@ client.query(q, function (stream, source, connectionsStream) {
   });
   stream.once('result', function (path) {
     path.forEach(function (connection) {
-      console.log(connection.departureTime.toISOString() + " at " + connection.departureStop + " To arrive in " + connection.arrivalStop + " at " +  connection.arrivalTime.toISOString());
+      console.log(connection.departureTime.toISOString() + " at " + connection.departureStop + " To arrive in " + connection.arrivalStop + " at " + connection.arrivalTime.toISOString());
       if (connection["gtfs:trip"]) {
         console.log(" with trip id " + JSON.stringify(connection["gtfs:trip"]));
       }
@@ -82,7 +83,7 @@ client.query(q, function (stream, source, connectionsStream) {
         console.log(" with headsign " + JSON.stringify(connection["gtfs:headsign"]));
       }
     });
-    var duration = ((path[path.length-1].arrivalTime.getTime() - path[0].departureTime.getTime())/60000 );
+    var duration = ((path[path.length - 1].arrivalTime.getTime() - path[0].departureTime.getTime()) / 60000);
     console.log("Duration of the journey is: " + duration + " minutes");
     console.log("To calculate, we have built a minimum spanning tree with " + count + " connections, while we relaxed " + countTotal + " connections in total.");
     var sumResponseTimes = 0;
@@ -90,7 +91,7 @@ client.query(q, function (stream, source, connectionsStream) {
       sumResponseTimes += httpResponseTimes[url];
     }
     console.log("Downloading data over HTTP adds up to", sumResponseTimes, "ms");
-    console.log(Math.round(totalBytesTransfered/(1024*1024)*100)/100 + "MB transfered while answering this query");
+    console.log(Math.round(totalBytesTransfered / (1024 * 1024) * 100) / 100 + "MB transfered while answering this query");
   });
   stream.on('error', function (error) {
     console.error(error);
