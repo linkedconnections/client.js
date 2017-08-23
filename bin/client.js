@@ -31,7 +31,7 @@ if (!q) {
   process.exit();
 }
 
-let options = { headers: [{ 'Accept-Datetime': '2017-08-21T10:00:00.000Z' }] };
+let options = { headers: { 'Accept-Datetime': '2017-08-21T10:00:00.000Z' } };
 config.options = options;
 
 let depTime = new Date(q.departureTime);
