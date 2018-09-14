@@ -37,7 +37,7 @@ config.options = options;
 let depTime = new Date(q.departureTime);
 depTime.setHours(depTime.getHours() + 2);
 q['latestDepartTime'] = depTime;
-q['minimumTransferTime'] = 6 * 60;
+q['minimumTransferTime'] = 60;
 q['searchTimeOut'] = 300000;
 
 console.log(JSON.stringify(q));
@@ -51,7 +51,7 @@ client._http.on('downloaded', function (download) {
   totalBytesTransfered += download.totalBytes;
 });
 
-//client.timespanQuery(q, function (stream, source, connectionsStream) {
+//client.query(q, function (stream, source, connectionsStream) {
 client.timespanQuery(q, function (stream, source, connectionsStream) {
   console.log('Querying ' + config.entrypoints.length + ' data source(s).');
   var httpStartTimes = {};
@@ -77,8 +77,7 @@ client.timespanQuery(q, function (stream, source, connectionsStream) {
   });
   stream.on('result', function (path) {
     paths.push(path);
-    console.log('-------------------------------------------')
-    //console.log(path);
+    console.log(path);
     /*path.forEach(function (connection) {
       console.log(connection.departureTime.toISOString() + " at " + connection.departureStop + " To arrive in " + connection.arrivalStop + " at " + connection.arrivalTime.toISOString());
       if (connection["gtfs:trip"]) {
