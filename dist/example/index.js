@@ -5,13 +5,17 @@ $("#submit").on("click", function () {
   var start = $("#selectfrom").val();
   var destination = $("#selectto").val();
 
-  var planner = new lc.Client({entrypoints: ["http://belgianrail.linkedconnections.org/connections"]} );
+  var planner = new lc.Client({entrypoints: ["https://belgium.linkedconnections.org/delijn/Oost-Vlaanderen/connections"]} );
   
-  var departure = new Date($("#departureTime").val());
-  planner.query({
+  var departureTime = new Date($("#departureTime").val());
+  var latestDepartureTime = new Date(departureTime.getTime() + (2 * 3600 * 1000));
+
+  planner.timespanQuery({
     "departureStop" : start,
     "arrivalStop" : destination,
-    "departureTime" : departure
+    "departureTime" : departureTime,
+    "latestDepartTime": latestDepartureTime,
+    "searchTimeOut" : 90000,
   }, function (stream, source) {
     stream.on('result', function (path) {
       $("#path").html("");
@@ -25,7 +29,7 @@ $("#submit").on("click", function () {
       $("#path").append("Duration of the journey is: " + duration + " minutes");
     });
     stream.on('data', function (connection) {
-      //console.log(connection);
+      console.log(connection);
     });
     stream.on('error', function (error) {
       console.error(error);

@@ -1,4 +1,4 @@
 {
-  "entrypoints" : ["https://belgium.linkedconnections.org/sncb/connections"],
+  "entrypoints" : ["https://belgium.linkedconnections.org/delijn/West-Vlaanderen/connections"],
   "enableCache" : true
 }
