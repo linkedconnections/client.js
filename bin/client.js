@@ -51,8 +51,8 @@ client._http.on('downloaded', function (download) {
   totalBytesTransfered += download.totalBytes;
 });
 
-//client.query(q, function (stream, source, connectionsStream) {
-client.timespanQuery(q, function (stream, source, connectionsStream) {
+client.query(q, function (stream, source, connectionsStream) {
+//client.timespanQuery(q, function (stream, source, connectionsStream) {
   console.log('Querying ' + config.entrypoints.length + ' data source(s).');
   var httpStartTimes = {};
   var httpResponseTimes = {};
