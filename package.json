@@ -7,6 +7,7 @@
   },
   "main": "lib-es5/lc-client.js",
   "scripts": {
+    "postinstall": "./install-csa-dependencies.sh",
     "test": "mocha",
     "build": "webpack --mode development",
     "build-es5": "babel lib --out-dir lib-es5",

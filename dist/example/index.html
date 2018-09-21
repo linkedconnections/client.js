@@ -1,0 +1,23 @@
+<html>
+    <head>
+      <script src="https://code.jquery.com/jquery-1.11.2.min.js"></script>
+      <script src="https://code.jquery.com/jquery-migrate-1.2.1.min.js"></script>
+    </head>
+    <body>
+      <label>Start at</label><input id="departureTime" type="datetime-local" min="2018-09-01T00:00" max="2018-10-30T23:59" value="2018-09-10T10:00"><br/>
+      <label>From:</label>
+      <select id="selectfrom">
+        <option value="https://data.delijn.be/stops/103725">Korte Van Bloerstraat</option>
+      </select>
+      <select id="selectto">
+        <option value="https://data.delijn.be/stops/103095">Jezusstraat</option>
+      </select>
+      <input type="button" id="submit" value="calculate route!"></input>
+      <p>
+        <div id="path">
+        </div>
+      </p>
+      <script src="../build.js"></script>
+      <script src="index.js"></script>
+    </body>
+  </html>
