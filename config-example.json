@@ -1,4 +1,5 @@
 {
-  "entrypoints" : ["https://belgium.linkedconnections.org/delijn/Oost-Vlaanderen/connections"],
+  "entrypoints" : ["https://belgium.linkedconnections.org/delijn/West-Vlaanderen/connections"],
+  "stops" : ["https://belgium.linkedconnections.org/delijn/West-Vlaanderen/stops"],
   "enableCache" : true
 }
