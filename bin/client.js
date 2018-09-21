@@ -23,7 +23,7 @@ program
   })
   .parse(process.argv);
 
-var configFile = program.config || path.join(__dirname, '../config-example.json'),
+var configFile = program.config || path.join(__dirname, '../config.json'),
   config = JSON.parse(fs.readFileSync(configFile, { encoding: 'utf8' }))
 
 if (!q) {
@@ -51,8 +51,8 @@ client._http.on('downloaded', function (download) {
   totalBytesTransfered += download.totalBytes;
 });
 
-//client.query(q, function (stream, source, connectionsStream) {
-client.timespanQuery(q, function (stream, source, connectionsStream) {
+client.query(q, function (stream, source, connectionsStream) {
+//client.timespanQuery(q, function (stream, source, connectionsStream) {
   console.log('Querying ' + config.entrypoints.length + ' data source(s).');
   var httpStartTimes = {};
   var httpResponseTimes = {};
@@ -77,8 +77,7 @@ client.timespanQuery(q, function (stream, source, connectionsStream) {
   });
   stream.on('result', function (path) {
     paths.push(path);
-    console.log(path);
-    /*path.forEach(function (connection) {
+    path.forEach(function (connection) {
       console.log(connection.departureTime.toISOString() + " at " + connection.departureStop + " To arrive in " + connection.arrivalStop + " at " + connection.arrivalTime.toISOString());
       if (connection["gtfs:trip"]) {
         console.log(" with trip id " + JSON.stringify(connection["gtfs:trip"]));
@@ -95,7 +94,14 @@ client.timespanQuery(q, function (stream, source, connectionsStream) {
       sumResponseTimes += httpResponseTimes[url];
     }
     console.log("Downloading data over HTTP adds up to", sumResponseTimes, "ms");
-    console.log(Math.round(totalBytesTransfered / (1024 * 1024) * 100) / 100 + "MB transfered while answering this query");*/
+    console.log(Math.round(totalBytesTransfered / (1024 * 1024) * 100) / 100 + "MB transfered while answering this query");
+  });
+  stream.on('end', () => {
+    console.log('**********************RESULTS: \n');
+    paths.forEach((path) => {
+      console.log('-------------------------------------------')
+      console.log(JSON.stringify(path));
+    });
   });
   /*stream.on('end', () => {
     console.log('**********************RESULTS: \n');
