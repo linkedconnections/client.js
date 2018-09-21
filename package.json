@@ -5,10 +5,11 @@
   "bin": {
     "lcc": "./bin/client.js"
   },
-  "main": "lib/lc-client.js",
+  "main": "lib-es5/lc-client.js",
   "scripts": {
     "test": "mocha",
-    "build": "browserify lib/lc-client.js -d -p [minifyify --no-map] > dist/build.js",
+    "build": "webpack --mode development",
+    "build-es5": "babel lib --out-dir lib-es5",
     "start": "node ./dist/test"
   },
   "author": "Pieter Colpaert <pieter.colpaert@ugent.be>",
@@ -21,10 +22,16 @@
     "url": "https://github.com/LinkedConnections/client.js/issues"
   },
   "devDependencies": {
-    "should": "^7.1.0",
+    "@babel/cli": "^7.1.0",
+    "@babel/core": "^7.1.0",
+    "@babel/node": "^7.0.0",
+    "@babel/preset-env": "^7.1.0",
+    "jsonld-stream": "^1.0.2",
     "minifyify": "^6.1.0",
     "mocha": "^2.3.2",
-    "jsonld-stream": "^1.0.2"
+    "should": "^7.1.0",
+    "webpack": "^4.19.1",
+    "webpack-cli": "^3.1.0"
   },
   "dependencies": {
     "async": "^1.5.2",
