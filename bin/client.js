@@ -1,4 +1,4 @@
-#!/usr/bin/node
+#!/usr/bin/env node
 
 var Client = require('../lib/lc-client.js'),
     path = require('path'),
